@@ -1,248 +1,227 @@
 import React, { useState } from 'react';
-import { Input } from '../components/ui/input';
 
-// Format large numbers using a * 10^b notation with superscript
-const formatLargeNumber = (num) => {
-  // Convert BigInt to scientific notation
-  if (typeof num === 'bigint') {
-    const strValue = num.toString();
-    const exponent = strValue.length - 1;
-    const coefficient = parseFloat(strValue.substring(0, 1) + "." + strValue.substring(1, 3));
-    return `${coefficient.toFixed(2)}×10<sup>${exponent}</sup>`;
-  }
-  
-  // If number is NaN
-  if (isNaN(num)) {
-    return "Invalid result";
-  }
-  
-  // If number is larger than 1 million, use a * 10^b notation
-  if (num > 1000000) {
-    const exp = Math.floor(Math.log10(num));
-    const coef = num / Math.pow(10, exp);
-    return `${coef.toFixed(2)}×10<sup>${exp}</sup>`;
-  }
-  // Otherwise use locale string formatting
-  return num.toLocaleString();
-};
+// Assets Imports
+import FlexiTeacher from '../assets/All Flexi Poses/PNG/Flexi_Teacher.png';
+import FlexiPoint from '../assets/All Flexi Poses/PNG/Flexi_Point.png';
+import FlexiThumbsUp from '../assets/All Flexi Poses/PNG/Flexi_ThumbsUp.png';
+import FlexiStars from '../assets/All Flexi Poses/PNG/Flexi_Stars.png';
+import FlexiExcited from '../assets/All Flexi Poses/PNG/Flexi_Excited.png';
+
+// UI Components Imports
+import { Container } from './ui/reused-ui/Container.jsx'
+import { FlexiText } from './ui/reused-ui/FlexiText.jsx'
+import { GlowButton } from './ui/reused-ui/GlowButton.jsx'
+import { MultiGlowButton } from './ui/reused-ui/MultiGlowButton.jsx'
+
+// UI Animation Imports
+import './ui/reused-animations/fade.css';
+import './ui/reused-animations/scale.css';
+import './ui/reused-animations/glow.css';
+
+// CSS Imports
+import './Factorial.css';
 
 const FactorialCalculator = () => {
-  const [inputValue, setInputValue] = useState('');
+  // State Management
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Introduction States
+  const [inputValue, setInputValue] = useState('5');
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
-  const [showGlow, setShowGlow] = useState(true);
+  const [showIntroduction, setShowIntroduction] = useState(true);
+  const [removeIntroduction, setRemoveIntroduction] = useState(false);
+  const [showCalculation, setShowCalculation] = useState(false);
 
-  // Calculate factorial of a number using BigInt for large numbers
-  const calculateFactorial = (n) => {
-    // Check if input is valid
-    if (n < 0 || !Number.isInteger(n)) {
-      throw new Error("Factorial is only defined for non-negative integers");
-    }
-    
-    // Base case
-    if (n === 0 || n === 1) return 1n;
-    
-    // Use iterative approach with BigInt to handle large numbers
-    let result = 1n;
-    for (let i = 2n; i <= BigInt(n); i++) {
-      result *= i;
-    }
-    
-    return result;
+  // Introduction -> Step 1 States
+  // Factorials
+  const [show5Factorial, setShow5Factorial] = useState(false);
+  const [show4Factorial, setShow4Factorial] = useState(false);
+  const [show3Factorial, setShow3Factorial] = useState(false);
+  const [show2Factorial, setShow2Factorial] = useState(false);
+  // Equal Signs
+  const [show5EqualSign, setShow5EqualSign] = useState(false);
+  const [show4EqualSign, setShow4EqualSign] = useState(false);
+  const [show3EqualSign, setShow3EqualSign] = useState(false);
+  const [show2EqualSign, setShow2EqualSign] = useState(false);
+  // Multiplication Operations
+  const [show5Multiplication, setShow5Multiplication] = useState(false);
+  const [show4Multiplication, setShow4Multiplication] = useState(false);
+  const [show3Multiplication, setShow3Multiplication] = useState(false);
+  const [show2Multiplication, setShow2Multiplication] = useState(false);  
+  // UI
+  const [showStep1Text, setShowStep1Text] = useState(false);
+  const [showStep1Button, setShowStep1Button] = useState(false);
+  const [removeStep1Text, setRemoveStep1Text] = useState(true);
+
+  // Step 1 -> Step 2 States
+  const [moveFactorialsLeft, setMoveFactorialsLeft] = useState(false);
+
+
+  // Reset Button Click Handler
+  const handleResetButtonClick = () => {
   };
 
-  // Format the factorial calculation steps
-  const formatFactorialSteps = (n) => {
-    if (n === 0 || n === 1) return `${n}! = 1`;
-    
-    const factorial = calculateFactorial(n);
-    
-    // For large numbers, don't show all multiplication steps
-    if (n > 10) {
-      return `${n}! = ${n} × ${n-1} × ${n-2} × ... × 2 × 1 = ${formatLargeNumber(factorial)}`;
-    }
-    
-    const steps = Array.from({length: n}, (_, i) => n - i).join(' × ');
-    const formattedResult = formatLargeNumber(factorial);
-    return `${n}! = ${steps} = ${formattedResult}`;
+  // Calculate Button Click Handler
+  const handleCalculateButtonClick = () => {
   };
 
-  // Handle input change
-  const handleInputChange = (e) => {
-    // Filter out any characters that aren't digits
-    let value = e.target.value.replace(/[^0-9]/g, '');
-    
-    // Enforce maximum input of 1000
-    if (value && parseInt(value) > 1000) {
-      value = '1000';
-    }
-    
-    // Update input value with filtered content
-    setInputValue(value);
+  //Introduction -> Step 1
+  const handleBeginLessonButtonClick = () => {
+    setShowIntroduction(false);
+    setTimeout(() => {
+      setShow5Factorial(true);
+      setTimeout(() => {
+        setShow4Factorial(true);
+        setTimeout(() => {
+          setShow3Factorial(true);
+          setTimeout(() => {
+            setShow2Factorial(true);
+            setTimeout(() => {
+              setRemoveStep1Text(false);
+              setShowStep1Text(true);
+              setTimeout(() => {
+                setShowStep1Button(true);
+              }, 300);
+            }, 600);
+          }, 500);
+        }, 500);
+      }, 500);
+    }, 800);
   };
 
-  // Calculate factorial from input value
-  const calculateFactorialFromInput = () => {
-    if (inputValue.trim()) {
-      try {
-        // Parse input as integer
-        const num = parseInt(inputValue);
-        
-        if (isNaN(num)) {
-          setError("Please enter a valid number");
-          setResult(null);
-          return;
-        }
-        
-        if (num < 0) {
-          setError("Factorial is only defined for non-negative integers");
-          setResult(null);
-          return;
-        }
-        
-        // Calculate factorial
-        const factorial = calculateFactorial(num);
-        setResult({
-          input: num,
-          factorial: factorial,
-          steps: formatFactorialSteps(num)
-        });
-        setError(null);
-        setShowGlow(false);
-      } catch (err) {
-        setError(err.message || "Failed to calculate factorial");
-        setResult(null);
-      }
-    }
-  };
+  //Step 1 -> Step 2
+  const handleContinueButton1Click = () => {
+    setShowStep1Text(false);
+    setTimeout(() => {
+      setMoveFactorialsLeft(true);
+      setTimeout(() => {
+        setShow5EqualSign(true);
+        setTimeout(() => {
+          setShow5Multiplication(true);
+          setTimeout(() => {
+            setShow4EqualSign(true);
+            setTimeout(() => {
+              setShow4Multiplication(true);
+              setTimeout(() => {
+                setShow3EqualSign(true);
+                setTimeout(() => {
+                  setShow3Multiplication(true);
+                  setTimeout(() => {
+                    setShow2EqualSign(true);
+                    setTimeout(() => {
+                      setShow2Multiplication(true);
+                    }, 500);
+                  }, 500);
+                }, 500);
+              }, 500);
+            }, 500);
+          }, 500);
+        }, 500);
+      }, 800);
+    }, 800);
+  }
 
   return (
-    <>
-      <style>{`
-        @property --r {
-          syntax: '<angle>';
-          inherits: false;
-          initial-value: 0deg;
-        }
+    <Container text="Factorial Calculator" showResetButton={true} onReset={handleResetButtonClick} disableResetButton={isAnimating}>
+      {/* Introduction Step */}
+      {!removeIntroduction && (
+        <>
+          <FlexiText 
+            className={`${showIntroduction ? '' : 'fade-out-up-animation'}`}
+            flexiImage={FlexiTeacher}
+          >
+            Welcome to the Factorial Calculator! Click one of the buttons below to begin the lesson or try solving your own factorial problem.
+          </FlexiText>
+          <MultiGlowButton
+            buttons={[
+              { text: 'Begin Lesson', onClick: handleBeginLessonButtonClick },
+              { text: 'Try Calculating', onClick: handleBeginLessonButtonClick },
+            ]}
+          />
+        </>
+      )}
 
-        .glow-button { 
-          min-width: auto; 
-          height: auto; 
-          position: relative; 
-          border-radius: 8px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1;
-          transition: all .3s ease;
-          padding: 7px;
-        }
-
-        .glow-button::before {
-          content: "";
-          display: block;
-          position: absolute;
-          background: rgb(249, 250, 251);
-          inset: 2px;
-          border-radius: 4px;
-          z-index: -2;
-        }
-
-        .glow-button-white::before {
-          content: "";
-          display: block;
-          position: absolute;
-          background: #fff;
-          inset: 2px;
-          border-radius: 4px;
-          z-index: -2;
-        }
-
-        .simple-glow {
-          background: conic-gradient(
-            from var(--r),
-            transparent 0%,
-            rgb(0, 255, 132) 2%,
-            rgb(0, 214, 111) 8%,
-            rgb(0, 174, 90) 12%,
-            rgb(0, 133, 69) 14%,
-            transparent 15%
-          );
-          animation: rotating 3s linear infinite;
-          transition: animation 0.3s ease;
-        }
-
-        .simple-glow.stopped {
-          animation: none;
-          background: none;
-        }
-
-        @keyframes rotating {
-          0% {
-            --r: 0deg;
-          }
-          100% {
-            --r: 360deg;
-          }
-        }
-      `}</style>
-      <div className="w-full max-w-md mx-auto shadow-md bg-white rounded-lg overflow-hidden">
-        <div className="p-4 pb-0">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Enter a number to find its factorial:
-            </label>
-            <div className="flex space-x-2 pb-3 items-center">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-                placeholder="Example: 5"
-                className="flex-1 h-11 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-              />
-              <div className={`glow-button glow-button-white ${showGlow ? 'simple-glow' : 'simple-glow stopped'}`}>
-                <button 
-                  onClick={calculateFactorialFromInput}
-                  className="px-3 py-2 bg-[#00783E] hover:bg-[#006633] text-white rounded-md transition-colors"
-                >
-                  Calculate
-                </button>
-              </div>
-            </div>
+      {/* Factorials */}
+      <div className={`w-[100%] h-[100%]`}>
+        {/* 5 */}
+        <div className={`absolute top-[11%] w-[100%] h-[35px]`}>
+          <div 
+            className={`absolute transform left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show5Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+            >5!</div>
+          <div  
+            className={`absolute left-[18%] translate-x-[-50%] text-3xl font-bold ${show5EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            > = 
           </div>
-
-          {(error || result) && (
-            <div className="bg-gray-50 -mx-4 mb-0.3 p-4 rounded-b-lg">
-              {error && (
-                <div className="bg-red-50 p-3 rounded-md border border-red-200">
-                  <p className="text-sm font-medium text-red-800">
-                    {error}
-                  </p>
-                </div>
-              )}
-              
-              {result && !error && (
-                <div className="space-y-3">
-                  <div className="bg-green-50 p-3 rounded-md border border-green-200">
-                    <p className="text-sm font-medium text-green-800 mb-1">
-                      Steps: 
-                      <br />
-                      <span className="pl-4 font-normal" dangerouslySetInnerHTML={{ __html: result.steps }}></span>
-                    </p>
-                    <p className="text-sm font-medium text-green-800">
-                      Result: 
-                      <br />
-                      <span className="pl-4 font-normal" dangerouslySetInnerHTML={{ __html: formatLargeNumber(result.factorial) }}></span>
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+          <div
+            className={`absolute left-[28%] translate-x-[-50%] text-3xl font-bold ${show5Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            >
+            5 x 4 x 3 x 2 x 1
+          </div>
+        </div>
+        {/* 4 */}
+        <div className={`absolute top-[22%] w-[100%] h-[35px]`}>
+          <div 
+            className={`absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show4Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+            >4! </div>
+          <div  
+            className={`absolute left-[18%] translate-x-[-50%] text-3xl font-bold ${show4EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            > = 
+          </div>
+          <div
+            className={`absolute left-[28%] translate-x-[-50%] text-3xl font-bold ${show4Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            >
+            4 x 3 x 2 x 1
+          </div>
+        </div>
+        {/* 3 */}
+        <div className={`absolute top-[33%] w-[100%] h-[35px]`}>
+          <div 
+            className={`absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show3Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+            >3! </div>
+          <div  
+            className={`absolute left-[18%] translate-x-[-50%] text-3xl font-bold ${show3EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            > = 
+          </div>
+          <div
+            className={`absolute left-[28%] translate-x-[-50%] text-3xl font-bold ${show3Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            >
+            3 x 2 x 1
+          </div>
+        </div>
+        {/* 2 */}
+        <div className={`absolute top-[44%] w-[100%] h-[35px]`}>
+          <div 
+            className={`absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show2Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+            >2! </div>
+          <div  
+            className={`absolute left-[18%] translate-x-[-50%] text-3xl font-bold ${show2EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            > = 
+          </div>
+          <div
+            className={`absolute left-[28%] translate-x-[-50%] text-3xl font-bold ${show2Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+            >
+            2 x 1
+          </div>
         </div>
       </div>
-    </>
+
+      {/* Step 1 Text */}
+      {!removeStep1Text &&
+        <>
+          <FlexiText
+            className={`${showStep1Text ? 'fade-in-up-animation' : 'fade-out-up-animation'}`}
+            flexiImage={FlexiTeacher}
+            >
+              A factorial is a math operation that looks like an exclamation mark on the right of a number.
+          </FlexiText>
+          <GlowButton
+            className={`${showStep1Button ? 'grow-in-animation' : 'no-show-animation'}`}
+            onClick={() => {handleContinueButton1Click()}}
+          >Continue
+          </GlowButton>
+        </>
+      }
+    </Container>
   );
 };
 

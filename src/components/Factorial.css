@@ -1,0 +1,13 @@
+.move-factorials-left {
+    animation: move-factorials-left 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes move-factorials-left {
+    from {
+      left: 50%;
+    }
+    to {
+      left: 10%;
+    }
+  }
+  
