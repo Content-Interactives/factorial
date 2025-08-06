@@ -50,16 +50,72 @@
   }
 }
 
-/* Step 3 -> Step 4 */
-.move-factorials-right {
-  animation: move-factorials-right 0.5s ease-in-out forwards;
+/* Step 3 -> Solve Prompt */
+.move-factorial-5-right {
+  animation: move-factorial-5-right 0.3s ease-in-out forwards;
 }
 
-@keyframes move-factorials-right {
+@keyframes move-factorial-5-right {
   from {
-    left: 15%;
+    left: 0%;
   }
   to {
-    left: 50%;
+    left: 22%;
   }
+}
+
+.move-factorial-4-right {
+  animation: move-factorial-4-right 0.3s ease-in-out forwards;
+}
+
+@keyframes move-factorial-4-right {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 24%;
+  }
+}
+
+.move-factorial-3-right {
+  animation: move-factorial-3-right 0.3s ease-in-out forwards;
+}
+
+@keyframes move-factorial-3-right {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 26%;
+  }
+}
+
+.move-factorial-2-right {
+  animation: move-factorial-2-right 0.3s ease-in-out forwards;
+}
+
+@keyframes move-factorial-2-right {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 26%;
+  }
+}
+
+/* Solve Prompt */
+.inputs {
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  background: transparent;
+  border: 2px solid #9ca3af;
+  border-radius: 4px;
+  outline: none;
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: #5750E3;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
 }

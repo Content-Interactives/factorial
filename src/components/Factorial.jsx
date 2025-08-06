@@ -32,6 +32,7 @@ const FactorialCalculator = () => {
 
   // Introduction -> Step 1 States
   // Factorials
+  const [removeFactorials, setRemoveFactorials] = useState(true);
   const [show5Factorial, setShow5Factorial] = useState(false);
   const [show4Factorial, setShow4Factorial] = useState(false);
   const [show3Factorial, setShow3Factorial] = useState(false);
@@ -89,17 +90,20 @@ const FactorialCalculator = () => {
   const [showStep3Button, setShowStep3Button] = useState(false);
   const [removeStep3Text, setRemoveStep3Text] = useState(true);
 
-  // Step 3 -> Step 4 States
+  // Step 3 -> Solve Prompt States
   const [moveFactorialsRight, setMoveFactorialsRight] = useState(false);
+  const [showFactorials, setShowFactorials] = useState(false);
+  const [showInput, setShowInput] = useState(false);
+  const [inputValue, setInputValue] = useState(5);
+  const [showDynamicAnswer, setShowDynamicAnswer] = useState(false);
+  const [removeSolvePrompt, setRemoveSolvePrompt] = useState(true);
+  const [showSolveFlexi, setShowSolveFlexi] = useState(false);
 
 
-
+  // Solve States
+  
   // Reset Button Click Handler
   const handleResetButtonClick = () => {
-  };
-
-  // Calculate Button Click Handler
-  const handleCalculateButtonClick = () => {
   };
 
   //Introduction -> Step 1
@@ -107,6 +111,8 @@ const FactorialCalculator = () => {
     setShowIntroduction(false);
     setTimeout(() => {
       setRemoveIntroduction(true);
+      setRemoveFactorials(false);
+      setShowFactorials(true);
       setShow5Factorial(true);
       setTimeout(() => {
         setShow4Factorial(true);
@@ -252,6 +258,23 @@ const FactorialCalculator = () => {
     setShowStep3Text(false);
     setTimeout(() => {
       setRemoveStep3Text(true);
+      setMoveFactorialsRight(true);
+      setTimeout(() => {
+        setShowFactorials(false);
+        setTimeout(() => {
+          setRemoveFactorials(true);
+          setTimeout(() => {
+            setRemoveSolvePrompt(false);
+            setShowInput(true);
+            setTimeout(() => {
+              setShowDynamicAnswer(true);
+              setTimeout(() => {
+                setShowSolveFlexi(true);
+              }, 800);
+            }, 300);
+          }, 300);
+        }, 800);
+      }, 300);
     }, 300);
   }
 
@@ -275,166 +298,209 @@ const FactorialCalculator = () => {
       )}
 
       {/* Factorials */}
-      <div className={`w-[100%] h-[100%]`}>
-        {/* 5 */}
-        <div className={`absolute top-[11%] w-[100%] h-[35px]`}>
-          <div 
-            className={`factorial-text absolute transform left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show5Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
-            >5!</div>
-          <div  
-            className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show5EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            > = 
+      {!removeFactorials && (
+         <div className={`w-[100%] h-[100%] ${showFactorials ? '' : 'fade-out-in-place-animation'}`}>
+          {/* 5 */}
+          <div className={`absolute top-[11%] w-[100%] h-[35px] ${moveFactorialsRight ? 'move-factorial-5-right' : ''}`}>
+            <div 
+              className={`factorial-text absolute transform left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show5Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+              >5!</div>
+            <div  
+              className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show5EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              > = 
+            </div>
+            <div
+              className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show5Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              >
+              <div className={`${factorial5Show60 ? 'no-show-animation' : factorial5Start20Times3 ? 'number-moves-right' : factorial5Show20 ? 'grow-in-animation' : 'no-show-animation'}`}>
+                20
+              </div>
+              <div className={`${factorial5Show120 ? 'no-show-animation' : factorial5Start60Times2 ? 'number-moves-right' : factorial5Show60 ? 'grow-in-animation' : 'no-show-animation'}`}>
+                60
+              </div>
+              <div className={`${factorial5ShowAnswer ? 'no-show-animation' : factorial5Start120Times1 ? 'number-moves-right' : factorial5Show120 ? 'grow-in-animation' : 'no-show-animation'}`}>
+                120
+              </div>
+              <div className={`${factorial5ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
+                120
+              </div>
+              <div className={`${factorial5Show20 ? 'no-show-animation' : factorial5Start5Times4 ? 'number-moves-right' : ''}`}>
+                5
+              </div>
+              <div className={`${factorial5Show20 ? 'no-show-animation' : factorial5Start5Times4 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial5Show20 ? 'no-show-animation' : factorial5Start5Times4 ? 'number-moves-left' : ''}`}>
+                4
+              </div>
+              <div className={`${factorial5Show60 ? 'no-show-animation' : factorial5Start20Times3 ? 'fade-out-in-place-animation' : factorial5Show60 ? 'grow-in-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial5Show60 ? 'no-show-animation' : factorial5Start20Times3 ? 'number-moves-left' : factorial5Show60 ? 'grow-in-animation' : ''}`}>
+                3
+              </div>
+              <div className={`${factorial5Show120 ? 'no-show-animation' : factorial5Start60Times2 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial5Show120 ? 'no-show-animation' : factorial5Start60Times2 ? 'number-moves-left' : ''}`}>
+                2
+              </div>
+              <div className={`${factorial5ShowAnswer ? 'no-show-animation' : factorial5Start120Times1 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial5ShowAnswer ? 'no-show-animation' : factorial5Start120Times1 ? 'number-moves-left' : ''}`}>
+                1
+              </div>
+            </div>
           </div>
-          <div
-            className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show5Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            >
-            <div className={`${factorial5Show60 ? 'no-show-animation' : factorial5Start20Times3 ? 'number-moves-right' : factorial5Show20 ? 'grow-in-animation' : 'no-show-animation'}`}>
-              20
+          {/* 4 */}
+          <div className={`absolute top-[22%] w-[100%] h-[35px] ${moveFactorialsRight ? 'move-factorial-4-right' : ''}`}>
+            <div 
+              className={`factorial-text absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show4Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+              >4! </div>
+            <div  
+              className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show4EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              > = 
             </div>
-            <div className={`${factorial5Show120 ? 'no-show-animation' : factorial5Start60Times2 ? 'number-moves-right' : factorial5Show60 ? 'grow-in-animation' : 'no-show-animation'}`}>
-              60
+            <div
+              className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show4Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              >
+              <div className={`${factorial4Show24 ? 'no-show-animation' : factorial4Start12Times2 ? 'number-moves-right' : factorial4Show12 ? 'grow-in-animation' : 'no-show-animation'}`}>
+                12
+              </div>
+              <div className={`${factorial4ShowAnswer ? 'no-show-animation' : factorial4Start24Times1 ? 'number-moves-right' : factorial4Show24 ? 'grow-in-animation' : 'no-show-animation'}`}>
+                24
+              </div>
+              <div className={`${factorial4ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
+                24
+              </div>
+              <div className={`${factorial4Show12 ? 'no-show-animation' : factorial4Start4Times3 ? 'number-moves-right' : ''}`}>
+                4
+              </div>
+              <div className={`${factorial4Show12 ? 'no-show-animation' : factorial4Start4Times3 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial4Show12 ? 'no-show-animation' : factorial4Start4Times3 ? 'number-moves-left' : ''}`}>
+                3
+              </div>
+              <div className={`${factorial4Show24 ? 'no-show-animation' : factorial4Start12Times2 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial4Show24 ? 'no-show-animation' : factorial4Start12Times2 ? 'number-moves-left' : ''}`}>
+                2
+              </div>
+              <div className={`${factorial4ShowAnswer ? 'no-show-animation' : factorial4Start24Times1 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial4ShowAnswer ? 'no-show-animation' : factorial4Start24Times1 ? 'number-moves-left' : ''}`}>
+                1
+              </div>
             </div>
-            <div className={`${factorial5ShowAnswer ? 'no-show-animation' : factorial5Start120Times1 ? 'number-moves-right' : factorial5Show120 ? 'grow-in-animation' : 'no-show-animation'}`}>
-              120
+          </div>
+          {/* 3 */}
+          <div className={`absolute top-[33%] w-[100%] h-[35px] ${moveFactorialsRight ? 'move-factorial-3-right' : ''} `}>
+            <div 
+              className={`factorial-text absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show3Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+              >3! </div>
+            <div  
+              className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show3EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              > = 
             </div>
-            <div className={`${factorial5ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
-              120
+            <div
+              className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show3Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              >
+              <div className={`${factorial3ShowAnswer ? 'no-show-animation' : factorial3Start6Times1 ? 'number-moves-right' : factorial3Show6 ? 'grow-in-animation' : 'no-show-animation'}`}>
+                6
+              </div>
+              <div className={`${factorial3ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
+                6
+              </div>
+              <div className={`${factorial3Show6 ? 'no-show-animation' : factorial3Start3Times2 ? 'number-moves-right' : ''}`}>
+                3
+              </div>
+              <div className={`${factorial3Show6 ? 'no-show-animation' : factorial3Start3Times2 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial3Show6 ? 'no-show-animation' : factorial3Start3Times2 ? 'number-moves-left' : ''}`}>
+                2
+              </div>
+              <div className={`${factorial3ShowAnswer ? 'no-show-animation' : factorial3Start6Times1 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial3ShowAnswer ? 'no-show-animation' : factorial3Start6Times1 ? 'number-moves-left' : ''}`}>
+                1
+              </div>
             </div>
-            <div className={`${factorial5Show20 ? 'no-show-animation' : factorial5Start5Times4 ? 'number-moves-right' : ''}`}>
-              5
+          </div>
+          {/* 2 */}
+          <div className={`absolute top-[44%] w-[100%] h-[35px] ${moveFactorialsRight ? 'move-factorial-2-right' : ''}`}>
+            <div 
+              className={`factorial-text absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show2Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
+              >2! </div>
+            <div  
+              className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show2EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              > = 
             </div>
-            <div className={`${factorial5Show20 ? 'no-show-animation' : factorial5Start5Times4 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial5Show20 ? 'no-show-animation' : factorial5Start5Times4 ? 'number-moves-left' : ''}`}>
-              4
-            </div>
-            <div className={`${factorial5Show60 ? 'no-show-animation' : factorial5Start20Times3 ? 'fade-out-in-place-animation' : factorial5Show60 ? 'grow-in-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial5Show60 ? 'no-show-animation' : factorial5Start20Times3 ? 'number-moves-left' : factorial5Show60 ? 'grow-in-animation' : ''}`}>
-              3
-            </div>
-            <div className={`${factorial5Show120 ? 'no-show-animation' : factorial5Start60Times2 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial5Show120 ? 'no-show-animation' : factorial5Start60Times2 ? 'number-moves-left' : ''}`}>
-              2
-            </div>
-            <div className={`${factorial5ShowAnswer ? 'no-show-animation' : factorial5Start120Times1 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial5ShowAnswer ? 'no-show-animation' : factorial5Start120Times1 ? 'number-moves-left' : ''}`}>
-              1
+            <div
+              className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show2Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
+              >
+              <div className={`${factorial2ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
+                2
+              </div>
+              <div className={`${factorial2ShowAnswer ? 'no-show-animation' : factorial2Start2Times1 ? 'number-moves-right' : ''}`}>
+                2
+              </div>
+              <div className={`${factorial2ShowAnswer ? 'no-show-animation' : factorial2Start2Times1 ? 'fade-out-in-place-animation' : ''}`}>
+                ×
+              </div>
+              <div className={`${factorial2ShowAnswer ? 'no-show-animation' : factorial2Start2Times1 ? 'number-moves-left' : ''}`}>
+                1
+              </div>
             </div>
           </div>
         </div>
-        {/* 4 */}
-        <div className={`absolute top-[22%] w-[100%] h-[35px]`}>
-          <div 
-            className={`factorial-text absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show4Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
-            >4! </div>
-          <div  
-            className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show4EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            > = 
+      )}
+
+      {/* Solve Prompt */}
+      {!removeSolvePrompt && (
+        <div className={`absolute top-[20%] left-[50%] translate-x-[-50%] flex flex-col items-center justify-center gap-y-5 h-[100px] ${showInput ? 'grow-in-centered-animation' : ''}`}>
+          <div className='flex items-center justify-center flex-row gap-1.5'>
+            <input 
+              type="text" 
+              className={`inputs text-2xl font-bold text-[#5750E3] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none z-50`} 
+              placeholder=""
+              value={inputValue}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                if (value === '' || value === '0') {
+                  setInputValue('');
+                } else {
+                  const numValue = parseInt(value);
+                  setInputValue(Math.min(numValue, 10));
+                }
+              }}
+              onBlur={(e) => {
+                if (e.target.value === '' || e.target.value === '0') {
+                  setInputValue(1);
+                }
+              }}
+              onKeyDown={(e) => {
+                // Prevent minus, plus, decimal point, and e/E (scientific notation)
+                if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e' || e.key === 'E') {
+                  e.preventDefault();
+                }
+              }}
+              />
+            <div className='text-4xl font-bold text-[#5750E3]'>
+              !
+            </div>
           </div>
-          <div
-            className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show4Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            >
-            <div className={`${factorial4Show24 ? 'no-show-animation' : factorial4Start12Times2 ? 'number-moves-right' : factorial4Show12 ? 'grow-in-animation' : 'no-show-animation'}`}>
-              12
-            </div>
-            <div className={`${factorial4ShowAnswer ? 'no-show-animation' : factorial4Start24Times1 ? 'number-moves-right' : factorial4Show24 ? 'grow-in-animation' : 'no-show-animation'}`}>
-              24
-            </div>
-            <div className={`${factorial4ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
-              24
-            </div>
-            <div className={`${factorial4Show12 ? 'no-show-animation' : factorial4Start4Times3 ? 'number-moves-right' : ''}`}>
-              4
-            </div>
-            <div className={`${factorial4Show12 ? 'no-show-animation' : factorial4Start4Times3 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial4Show12 ? 'no-show-animation' : factorial4Start4Times3 ? 'number-moves-left' : ''}`}>
-              3
-            </div>
-            <div className={`${factorial4Show24 ? 'no-show-animation' : factorial4Start12Times2 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial4Show24 ? 'no-show-animation' : factorial4Start12Times2 ? 'number-moves-left' : ''}`}>
-              2
-            </div>
-            <div className={`${factorial4ShowAnswer ? 'no-show-animation' : factorial4Start24Times1 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial4ShowAnswer ? 'no-show-animation' : factorial4Start24Times1 ? 'number-moves-left' : ''}`}>
-              1
-            </div>
+
+          <div className='text-4xl font-bold'>
+            = ?
           </div>
         </div>
-        {/* 3 */}
-        <div className={`absolute top-[33%] w-[100%] h-[35px]`}>
-          <div 
-            className={`factorial-text absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show3Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
-            >3! </div>
-          <div  
-            className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show3EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            > = 
-          </div>
-          <div
-            className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show3Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            >
-            <div className={`${factorial3ShowAnswer ? 'no-show-animation' : factorial3Start6Times1 ? 'number-moves-right' : factorial3Show6 ? 'grow-in-animation' : 'no-show-animation'}`}>
-              6
-            </div>
-            <div className={`${factorial3ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
-              6
-            </div>
-            <div className={`${factorial3Show6 ? 'no-show-animation' : factorial3Start3Times2 ? 'number-moves-right' : ''}`}>
-              3
-            </div>
-            <div className={`${factorial3Show6 ? 'no-show-animation' : factorial3Start3Times2 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial3Show6 ? 'no-show-animation' : factorial3Start3Times2 ? 'number-moves-left' : ''}`}>
-              2
-            </div>
-            <div className={`${factorial3ShowAnswer ? 'no-show-animation' : factorial3Start6Times1 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial3ShowAnswer ? 'no-show-animation' : factorial3Start6Times1 ? 'number-moves-left' : ''}`}>
-              1
-            </div>
-          </div>
-        </div>
-        {/* 2 */}
-        <div className={`absolute top-[44%] w-[100%] h-[35px]`}>
-          <div 
-            className={`factorial-text absolute left-[50%] translate-x-[-50%] text-3xl font-bold ${moveFactorialsLeft ? 'move-factorials-left' : show2Factorial ? 'grow-in-centered-animation' : 'no-show-animation'}`}
-            >2! </div>
-          <div  
-            className={`factorial-text absolute left-[22%] translate-x-[-50%] text-3xl font-bold ${show2EqualSign ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            > = 
-          </div>
-          <div
-            className={`flex flex-row gap-1.5 factorial-text absolute left-[31%] translate-x-[-50%] text-3xl font-bold ${show2Multiplication ? 'fade-in-right-animation' : 'no-show-animation'}`}
-            >
-            <div className={`${factorial2ShowAnswer ? 'grow-in-animation' : 'no-show-animation'}`}>
-              2
-            </div>
-            <div className={`${factorial2ShowAnswer ? 'no-show-animation' : factorial2Start2Times1 ? 'number-moves-right' : ''}`}>
-              2
-            </div>
-            <div className={`${factorial2ShowAnswer ? 'no-show-animation' : factorial2Start2Times1 ? 'fade-out-in-place-animation' : ''}`}>
-              ×
-            </div>
-            <div className={`${factorial2ShowAnswer ? 'no-show-animation' : factorial2Start2Times1 ? 'number-moves-left' : ''}`}>
-              1
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Step 1 Text */}
       {!removeStep1Text &&
@@ -486,6 +552,16 @@ const FactorialCalculator = () => {
           </GlowButton>
         </>
       }
+
+      {/* Solve Prompt */}
+      {showSolveFlexi && (
+        <FlexiText
+          className={`${showSolveFlexi ? 'fade-in-up-animation' : 'fade-out-up-animation'}`}
+          flexiImage={FlexiThumbsUp}
+        >
+          Enter your own number above to find its factorial!
+        </FlexiText>
+      )}
     </Container>
   );
 };
