@@ -1,20 +1,65 @@
+/* Step 1 -> Step 2 */
 .move-factorials-left {
-    animation: move-factorials-left 0.5s ease-in-out forwards;
-  }
+  animation: move-factorials-left 0.5s ease-in-out forwards;
+}
   
-  @keyframes move-factorials-left {
-    from {
-      left: 50%;
-    }
-    to {
-      left: 15%;
-    }
+@keyframes move-factorials-left {
+  from {
+    left: 50%;
   }
+  to {
+    left: 15%;
+  }
+}
 
-  /* Responsive styles for screens smaller than 360px */
-  @media (max-width: 379px) {
-    .factorial-text {
-      font-size: 1.3rem; /* text-xl equivalent */
-    }
+/* Responsive styles for screens smaller than 360px */
+@media (max-width: 389px) {
+  .factorial-text {
+    font-size: 1.3rem; /* text-xl equivalent */
   }
+}
   
+/* Step 2 -> Step 3 */
+.number-moves-left {
+  animation: number-moves-left 0.2s ease-in-out forwards;
+}
+
+@keyframes number-moves-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+}
+
+.number-moves-right {
+  animation: number-moves-right 0.2s ease-in-out forwards;
+}
+
+@keyframes number-moves-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* Step 3 -> Step 4 */
+.move-factorials-right {
+  animation: move-factorials-right 0.5s ease-in-out forwards;
+}
+
+@keyframes move-factorials-right {
+  from {
+    left: 15%;
+  }
+  to {
+    left: 50%;
+  }
+}
