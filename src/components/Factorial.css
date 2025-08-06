@@ -7,7 +7,14 @@
       left: 50%;
     }
     to {
-      left: 10%;
+      left: 15%;
+    }
+  }
+
+  /* Responsive styles for screens smaller than 360px */
+  @media (max-width: 379px) {
+    .factorial-text {
+      font-size: 1.3rem; /* text-xl equivalent */
     }
   }
   
