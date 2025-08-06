@@ -22,6 +22,10 @@ import './ui/reused-animations/glow.css';
 // CSS Imports
 import './Factorial.css';
 
+// Function Imports
+import { DynamicFactorialAnimation } from './DynamicFactorials.jsx';
+
+
 const FactorialCalculator = () => {
   // State Management
   const [isAnimating, setIsAnimating] = useState(false);
@@ -95,16 +99,41 @@ const FactorialCalculator = () => {
   const [showFactorials, setShowFactorials] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState(5);
+  const [answer, setAnswer] = useState('25');
   const [showDynamicAnswer, setShowDynamicAnswer] = useState(false);
   const [removeSolvePrompt, setRemoveSolvePrompt] = useState(true);
+  const [removeSolveFlexi, setRemoveSolveFlexi] = useState(true);
   const [showSolveFlexi, setShowSolveFlexi] = useState(false);
-
+  const [inputsModified, setInputsModified] = useState(false);
+  const [hideSolveButton, setHideSolveButton] = useState(false);
 
   // Solve States
+  const [showUserInputText, setShowUserInputText] = useState(false);
+  const [hideAnswer, setHideAnswer] = useState(false);
+  const [showDynamicAnimation, setShowDynamicAnimation] = useState(false);
+
+
   
   // Reset Button Click Handler
   const handleResetButtonClick = () => {
   };
+
+  // Introduction -> Solve Prompt
+  const handleTryCalculatingButtonClick = () => {
+    setShowIntroduction(false);
+    setTimeout(() => {
+      setRemoveIntroduction(true);
+      setRemoveSolvePrompt(false);
+      setShowInput(true);
+      setTimeout(() => {
+        setShowDynamicAnswer(true);
+        setTimeout(() => {
+          setRemoveSolveFlexi(false);
+          setShowSolveFlexi(true);
+        }, 500);
+      }, 300);
+    }, 800);
+  }
 
   //Introduction -> Step 1
   const handleBeginLessonButtonClick = () => {
@@ -264,18 +293,37 @@ const FactorialCalculator = () => {
         setTimeout(() => {
           setRemoveFactorials(true);
           setTimeout(() => {
-            setRemoveSolvePrompt(false);
             setShowInput(true);
+            setRemoveSolvePrompt(false);
             setTimeout(() => {
               setShowDynamicAnswer(true);
               setTimeout(() => {
+                setRemoveSolveFlexi(false);
                 setShowSolveFlexi(true);
-              }, 800);
+              }, 500);
             }, 300);
           }, 300);
-        }, 800);
+        }, 500);
       }, 300);
     }, 300);
+  }
+
+  // Solve Button Click Handler
+  const handleSolveButtonClick = () => {
+    setHideSolveButton(true);
+    setShowSolveFlexi(false);
+    setTimeout(() => {
+      setShowInput(false);
+      setTimeout(() => {
+        setShowUserInputText(true);
+        setTimeout(() => {
+          setHideAnswer(true);
+          setTimeout(() => {
+            setShowDynamicAnimation(true);
+          }, 300);
+        }, 300);
+      }, 300);
+    }, 500);
   }
 
   return (
@@ -291,7 +339,7 @@ const FactorialCalculator = () => {
           <MultiGlowButton
             buttons={[
               { text: 'Begin Lesson', onClick: handleBeginLessonButtonClick },
-              { text: 'Try Calculating', onClick: handleBeginLessonButtonClick },
+              { text: 'Try Calculating', onClick: handleTryCalculatingButtonClick },
             ]}
           />
         </>
@@ -461,47 +509,6 @@ const FactorialCalculator = () => {
         </div>
       )}
 
-      {/* Solve Prompt */}
-      {!removeSolvePrompt && (
-        <div className={`absolute top-[20%] left-[50%] translate-x-[-50%] flex flex-col items-center justify-center gap-y-5 h-[100px] ${showInput ? 'grow-in-centered-animation' : ''}`}>
-          <div className='flex items-center justify-center flex-row gap-1.5'>
-            <input 
-              type="text" 
-              className={`inputs text-2xl font-bold text-[#5750E3] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none z-50`} 
-              placeholder=""
-              value={inputValue}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, '');
-                if (value === '' || value === '0') {
-                  setInputValue('');
-                } else {
-                  const numValue = parseInt(value);
-                  setInputValue(Math.min(numValue, 10));
-                }
-              }}
-              onBlur={(e) => {
-                if (e.target.value === '' || e.target.value === '0') {
-                  setInputValue(1);
-                }
-              }}
-              onKeyDown={(e) => {
-                // Prevent minus, plus, decimal point, and e/E (scientific notation)
-                if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e' || e.key === 'E') {
-                  e.preventDefault();
-                }
-              }}
-              />
-            <div className='text-4xl font-bold text-[#5750E3]'>
-              !
-            </div>
-          </div>
-
-          <div className='text-4xl font-bold'>
-            = ?
-          </div>
-        </div>
-      )}
-
       {/* Step 1 Text */}
       {!removeStep1Text &&
         <>
@@ -554,7 +561,7 @@ const FactorialCalculator = () => {
       }
 
       {/* Solve Prompt */}
-      {showSolveFlexi && (
+      {!removeSolveFlexi && (
         <FlexiText
           className={`${showSolveFlexi ? 'fade-in-up-animation' : 'fade-out-up-animation'}`}
           flexiImage={FlexiThumbsUp}
@@ -562,6 +569,77 @@ const FactorialCalculator = () => {
           Enter your own number above to find its factorial!
         </FlexiText>
       )}
+
+      {/* Solve Prompt */}
+      {!removeSolvePrompt && (
+        <div className={`absolute top-[20%] left-[50%] translate-x-[-50%] flex flex-col items-center justify-center gap-y-5 h-[100px]`}>
+          <div className={`flex items-center justify-center flex-row gap-1.5 ${showInput ? 'grow-in-animation' : 'shrink-out-animation'}`}>
+            <input 
+              type="text" 
+              className={`inputs text-2xl font-bold text-[#5750E3] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none z-50`} 
+              placeholder=""
+              value={inputValue}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                if (value === '' || value === '0') {
+                  setInputValue('');
+                } else {
+                  const numValue = parseInt(value);
+                  setInputValue(Math.min(numValue, 20));
+                  setInputsModified(true);
+                }
+                setAnswer('?');
+              }}
+              onBlur={(e) => {
+                if (e.target.value === '' || e.target.value === '0') {
+                  setInputValue(1);
+                  setInputsModified(true);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e' || e.key === 'E') {
+                  e.preventDefault();
+                }
+              }}
+              />
+            <div className='text-4xl font-bold text-[#5750E3]'>
+              !
+            </div>
+          </div>
+
+          <div className={`text-4xl font-bold ${hideAnswer ? 'fade-out-in-place-animation' : ''}`}>
+            {`= ${answer}`}
+          </div>
+        </div>
+      )}
+
+      {/* Solving Elements */}
+      {!removeSolvePrompt && (
+        <>
+          <div className={`text-4xl font-bold text-[#5750E3] absolute top-[20%] left-[50%] translate-x-[-50%] ${showUserInputText ? 'grow-in-centered-animation' : 'no-show-animation'}`}>
+            {inputValue}!
+          </div>
+          {showDynamicAnimation && (
+            <DynamicFactorialAnimation
+              factorial={inputValue}
+              onAnimationComplete={() => {
+                // Animation calculations are complete, but keep the final answer visible
+                // Don't hide the component - let the final answer stay on screen
+              }}
+            />
+          )}
+        </>
+      )}
+
+      {/* Solve Button */}
+      {inputsModified && (
+        <GlowButton
+          className={`${hideSolveButton ? 'shrink-out-animation' : inputsModified ? 'grow-in-animation' : 'no-show-animation'}`}
+          onClick={() => {handleSolveButtonClick()}}
+        >Solve  
+        </GlowButton>
+      )}
+      
     </Container>
   );
 };

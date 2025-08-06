@@ -119,3 +119,17 @@
   -webkit-appearance: none;
   -moz-appearance: textfield;
 }
+
+/* Solving */
+.move-answer-down {
+  animation: move-answer-down 0.3s ease-in-out forwards;
+}
+
+@keyframes move-answer-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100px);
+  }
+}
