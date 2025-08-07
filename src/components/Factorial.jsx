@@ -127,6 +127,91 @@ const FactorialCalculator = () => {
 
   // Reset Button Click Handler
   const handleResetButtonClick = () => {
+    // State Management
+    setIsAnimating(false);
+
+    // Introduction States
+    setShowIntroduction(true);
+    setRemoveIntroduction(false);
+
+    // Introduction -> Step 1 States
+    // Factorials
+    setRemoveFactorials(true);
+    setShow5Factorial(false);
+    setShow4Factorial(false);
+    setShow3Factorial(false);
+    setShow2Factorial(false);
+    // UI
+    setShowStep1Text(false);
+    setShowStep1Button(false);
+    setRemoveStep1Text(true);
+
+    // Step 1 -> Step 2 States
+    // Factorials
+    setMoveFactorialsLeft(false);
+    // Equal Signs
+    setShow5EqualSign(false);
+    setShow4EqualSign(false);
+    setShow3EqualSign(false);
+    setShow2EqualSign(false);
+    // Multiplication Operations
+    setShow5Multiplication(false);
+    setShow4Multiplication(false);
+    setShow3Multiplication(false);
+    setShow2Multiplication(false);
+    // UI
+    setShowStep2Text(false);
+    setShowStep2Button(false);
+    setRemoveStep2Text(true);
+    
+    // Step 2 -> Step 3 States
+    // 5!
+    setFactorial5Start5Times4(false);
+    setFactorial5Show20(false);
+    setFactorial5Start20Times3(false);
+    setFactorial5Show60(false);
+    setFactorial5Start60Times2(false);
+    setFactorial5Show120(false);
+    setFactorial5Start120Times1(false);
+    setFactorial5ShowAnswer(false);
+    // 4!
+    setFactorial4Start4Times3(false);
+    setFactorial4Show12(false);
+    setFactorial4Start12Times2(false);
+    setFactorial4Show24(false);
+    setFactorial4Start24Times1(false);
+    setFactorial4ShowAnswer(false);
+    // 3!
+    setFactorial3Start3Times2(false);
+    setFactorial3Show6(false);
+    setFactorial3Start6Times1(false);
+    setFactorial3ShowAnswer(false);
+    // 2!
+    setFactorial2Start2Times1(false);
+    setFactorial2ShowAnswer(false);
+    // UI
+    setShowStep3Text(false);
+    setShowStep3Button(false);
+    setRemoveStep3Text(true);
+
+    // Step 3 -> Solve Prompt States
+    setMoveFactorialsRight(false);
+    setShowFactorials(false);
+    setShowInput(false);
+    setInputValue(5);
+    setAnswer('120');
+    setShowDynamicAnswer(false);
+    setRemoveSolvePrompt(true);
+    setRemoveSolveFlexi(true);
+    setShowSolveFlexi(false);
+    setInputsModified(false);
+    setHideSolveButton(false);
+
+    // Solve States
+    setShowUserInputText(false);
+    setHideAnswer(false);
+    setShowDynamicAnimation(false);
+    setSolvingAnimationComplete(false);
   };
 
   // Introduction -> Solve Prompt
@@ -595,7 +680,7 @@ const FactorialCalculator = () => {
 
       {/* Solve Prompt */}
       {!removeSolvePrompt && (
-        <div className={`absolute top-[20%] left-[50%] translate-x-[-50%] flex flex-col items-center justify-center gap-y-5 h-[100px]`}>
+        <div className={`w-[100%] absolute top-[20%] left-[50%] translate-x-[-50%] flex flex-col items-center justify-center gap-y-5 h-[100px]`}>
           <div className={`flex items-center justify-center flex-row gap-1.5 ${showInput ? 'grow-in-animation' : 'shrink-out-animation'}`}>
             <input 
               type="text" 
@@ -630,7 +715,7 @@ const FactorialCalculator = () => {
             </div>
           </div>
 
-          <div className={`text-4xl font-bold ${hideAnswer ? 'fade-out-in-place-animation' : 'grow-in-animation'}`}>
+          <div className={`${answer.toString().length > 9 ? 'text-lg' : 'text-4xl'} font-bold ${hideAnswer ? 'fade-out-in-place-animation' : 'grow-in-animation'}`}>
             {`= ${answer}`}
           </div>
         </div>
