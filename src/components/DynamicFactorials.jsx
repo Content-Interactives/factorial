@@ -1,6 +1,27 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 export const DynamicFactorialAnimation = ({ factorial, onAnimationComplete }) => {
+  // Edge case: if factorial is 1, skip animations and return result immediately
+  if (factorial === 1) {
+    // Call onAnimationComplete immediately since there's no animation
+    React.useEffect(() => {
+      if (onAnimationComplete) {
+        const timer = setTimeout(onAnimationComplete, 300);
+        return () => clearTimeout(timer);
+      }
+    }, [onAnimationComplete]);
+
+    return (
+      <div className="absolute top-[35%] left-[50%] translate-x-[-50%] w-[80%]">
+        <div className="flex flex-row gap-1.5 justify-center items-center flex-wrap grow-in-animation">
+          <div className="text-3xl font-bold">
+            1
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Generate the sequence of calculations for any factorial
   const generateCalculationSteps = (n) => {
     if (n <= 1) return [{ left: 1, right: null, result: 1, isLast: true }];
@@ -177,8 +198,22 @@ export const DynamicFactorialAnimation = ({ factorial, onAnimationComplete }) =>
 
   const elements = generateDisplayElements();
 
+  // Check if leftmost number has more than 10 digits
+  const getLeftmostNumber = () => {
+    for (const element of elements) {
+      if (['number', 'result', 'calculating-left', 'calculating-right', 'final-answer'].includes(element.type)) {
+        return element.value;
+      }
+    }
+    return 0;
+  };
+
+  const leftmostNumber = getLeftmostNumber();
+  const hasLargeNumber = leftmostNumber.toString().length > 10;
+
   const getElementClassName = (element) => {
-    const baseClasses = 'text-3xl font-bold';
+    const baseFontSize = hasLargeNumber ? 'text-lg' : 'text-2xl';
+    const baseClasses = `${baseFontSize} font-bold`;
     
     switch (element.type) {
       case 'number':
@@ -209,8 +244,6 @@ export const DynamicFactorialAnimation = ({ factorial, onAnimationComplete }) =>
 
   if (factorial <= 0) return null;
 
-  // Determine if we should show the grow-in animation
-  const shouldShowGrowInAnimation = showInitialExpression && (currentStep === -1 || animationPhase === 'idle');
   
   // Don't render anything until we're ready to show the initial expression
   if (!showInitialExpression && (currentStep === -1 || animationPhase === 'idle')) {
@@ -219,7 +252,7 @@ export const DynamicFactorialAnimation = ({ factorial, onAnimationComplete }) =>
 
   return (
     <div className="absolute top-[35%] left-[50%] translate-x-[-50%] w-[80%]">
-      <div className={`flex flex-row gap-1.5 justify-center items-center flex-wrap ${shouldShowGrowInAnimation ? 'grow-in-animation' : ''}`}>
+      <div className={`flex flex-row gap-1.5 justify-center items-center flex-wrap`}>
         {elements.map((element) => (
           <div
             key={element.key}

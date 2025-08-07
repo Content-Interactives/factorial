@@ -111,9 +111,20 @@ const FactorialCalculator = () => {
   const [showUserInputText, setShowUserInputText] = useState(false);
   const [hideAnswer, setHideAnswer] = useState(false);
   const [showDynamicAnimation, setShowDynamicAnimation] = useState(false);
-
-
+  const [solvingAnimationComplete, setSolvingAnimationComplete] = useState(false);
   
+  // Factorial calculation function
+  const calculateFactorial = (n) => {
+    if (n <= 0) return 1;
+    if (n === 1) return 1;
+    
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+      result *= i;
+    }
+    return result;
+  };
+
   // Reset Button Click Handler
   const handleResetButtonClick = () => {
   };
@@ -313,17 +324,29 @@ const FactorialCalculator = () => {
     setHideSolveButton(true);
     setShowSolveFlexi(false);
     setTimeout(() => {
+      setInputsModified(false);
       setShowInput(false);
       setTimeout(() => {
         setShowUserInputText(true);
+        setHideAnswer(true);
         setTimeout(() => {
-          setHideAnswer(true);
-          setTimeout(() => {
-            setShowDynamicAnimation(true);
-          }, 300);
+          setShowDynamicAnimation(true);
         }, 300);
       }, 300);
     }, 500);
+  }
+
+  const handleSolveButtonClickPart2 = () => {
+    setAnswer(calculateFactorial(inputValue));
+    setHideAnswer(false);
+    setShowDynamicAnimation(false);
+    setShowInput(true);
+    setShowDynamicAnimation(false);
+    setShowUserInputText(false);
+    setTimeout(() => {
+      setShowSolveFlexi(true);
+      setHideSolveButton(false);
+    }, 600);
   }
 
   return (
@@ -607,7 +630,7 @@ const FactorialCalculator = () => {
             </div>
           </div>
 
-          <div className={`text-4xl font-bold ${hideAnswer ? 'fade-out-in-place-animation' : ''}`}>
+          <div className={`text-4xl font-bold ${hideAnswer ? 'fade-out-in-place-animation' : 'grow-in-animation'}`}>
             {`= ${answer}`}
           </div>
         </div>
@@ -620,13 +643,14 @@ const FactorialCalculator = () => {
             {inputValue}!
           </div>
           {showDynamicAnimation && (
-            <DynamicFactorialAnimation
-              factorial={inputValue}
-              onAnimationComplete={() => {
-                // Animation calculations are complete, but keep the final answer visible
-                // Don't hide the component - let the final answer stay on screen
-              }}
-            />
+            <div className={`h-[400px] w-[100%] ${showDynamicAnimation ? 'grow-in-animation' : 'shrink-out-animation'}`}>
+              <DynamicFactorialAnimation
+                factorial={inputValue}
+                onAnimationComplete={() => {
+                  handleSolveButtonClickPart2();
+                }}
+              />
+            </div>
           )}
         </>
       )}
