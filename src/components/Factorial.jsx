@@ -216,6 +216,7 @@ const FactorialCalculator = () => {
 
   // Introduction -> Solve Prompt
   const handleTryCalculatingButtonClick = () => {
+    setIsAnimating(true);
     setShowIntroduction(false);
     setTimeout(() => {
       setRemoveIntroduction(true);
@@ -226,6 +227,7 @@ const FactorialCalculator = () => {
         setTimeout(() => {
           setRemoveSolveFlexi(false);
           setShowSolveFlexi(true);
+          setIsAnimating(false);
         }, 500);
       }, 300);
     }, 800);
@@ -233,6 +235,7 @@ const FactorialCalculator = () => {
 
   //Introduction -> Step 1
   const handleBeginLessonButtonClick = () => {
+    setIsAnimating(true);
     setShowIntroduction(false);
     setTimeout(() => {
       setRemoveIntroduction(true);
@@ -250,6 +253,7 @@ const FactorialCalculator = () => {
               setShowStep1Text(true);
               setTimeout(() => {
                 setShowStep1Button(true);
+                setIsAnimating(false);
               }, 300);
             }, 600);
           }, 500);
@@ -260,6 +264,7 @@ const FactorialCalculator = () => {
 
   //Step 1 -> Step 2
   const handleContinueButton1Click = () => {
+    setIsAnimating(true);
     setShowStep1Text(false);
     setTimeout(() => {
       setRemoveStep1Text(true);
@@ -285,6 +290,7 @@ const FactorialCalculator = () => {
                         setRemoveStep2Text(false);
                         setTimeout(() => {
                           setShowStep2Button(true);
+                          setIsAnimating(false);
                         }, 300);
                       }, 800);
                     }, 500);
@@ -300,6 +306,7 @@ const FactorialCalculator = () => {
 
   //Step 2 -> Step 3
   const handleContinueButton2Click = () => {
+    setIsAnimating(true);
     setShowStep2Text(false);
     setTimeout(() => {
       setRemoveStep2Text(true);
@@ -353,6 +360,7 @@ const FactorialCalculator = () => {
                                                 setRemoveStep3Text(false);
                                                 setTimeout(() => {
                                                   setShowStep3Button(true);
+                                                  setIsAnimating(false);
                                                   }, 300);
                                                 }, 800);
                                               }, 300);
@@ -380,6 +388,7 @@ const FactorialCalculator = () => {
 
   // Step 3 -> Step 4
   const handleContinueButton3Click = () => {
+    setIsAnimating(true);
     setShowStep3Text(false);
     setTimeout(() => {
       setRemoveStep3Text(true);
@@ -396,6 +405,7 @@ const FactorialCalculator = () => {
               setTimeout(() => {
                 setRemoveSolveFlexi(false);
                 setShowSolveFlexi(true);
+                setIsAnimating(false);
               }, 500);
             }, 300);
           }, 300);
@@ -406,6 +416,7 @@ const FactorialCalculator = () => {
 
   // Solve Button Click Handler
   const handleSolveButtonClick = () => {
+    setIsAnimating(true);
     setHideSolveButton(true);
     setShowSolveFlexi(false);
     setTimeout(() => {
@@ -431,6 +442,7 @@ const FactorialCalculator = () => {
     setTimeout(() => {
       setShowSolveFlexi(true);
       setHideSolveButton(false);
+      setIsAnimating(false);
     }, 600);
   }
 
